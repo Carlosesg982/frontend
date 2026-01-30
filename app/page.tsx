@@ -13,7 +13,7 @@ export default function Home() {
   );
 
   const header2 = (
-    <div className="p-3 bg-blue-500/10 rounded-lg w-fit mb-2 ml-6 mt-6">
+    <div className="p-3 bg-green-500/10 rounded-lg w-fit mb-2 ml-6 mt-6">
       <i
         className="pi pi-arrow-right-arrow-left"
         style={{ color: "green", fontSize: "1.5rem" }}
