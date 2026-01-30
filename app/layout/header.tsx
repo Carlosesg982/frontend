@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 const navItems = [
   { href: "/", label: "Inicio", icon: "pi pi-objects-column" },
-  { href: "/vehiculos", label: "Vehículos", icon: "pi pi-truck" },
+  { href: "/vehicles", label: "Vehículos", icon: "pi pi-truck" },
   {
     href: "/registrar",
     label: "Registrar E/S",
@@ -12,7 +12,7 @@ const navItems = [
   { href: "/historial", label: "Historial", icon: "pi pi-clipboard" },
 ];
 
-const Footer = () => {
+const Header = () => {
   const pathname = usePathname();
 
   return (
@@ -55,4 +55,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Header;
