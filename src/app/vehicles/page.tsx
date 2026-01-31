@@ -1,18 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import VehicleCard from "@/src/components/vehicle/card/vehicle-card";
 import { VehicleForm } from "@/src/components/vehicle/form/vehicle-form";
 import { Button } from "primereact/button";
-import { confirmDialog } from "primereact/confirmdialog";
-import { Toast } from "primereact/toast";
 import type { Vehicle } from "@/src/lib/types";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import { getVehicleList } from "@/src/lib/features/core/vehicule/thunks/vehicle-list.thunk";
+import { getBrandList } from "@/src/lib/features/core/brand/thunks/brand-list.thunk";
 
 export default function VehiculosPage() {
   const dispatch = useAppDispatch();
-  const toast = useRef<Toast>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
@@ -66,54 +64,13 @@ export default function VehiculosPage() {
   //   setFormOpen(true);
   // };
 
-  const accept = () => {
-    toast.current?.show({
-      severity: "info",
-      summary: "Confirmed",
-      detail: "You have accepted",
-      life: 3000,
-    });
-  };
-
-  const reject = () => {
-    toast.current?.show({
-      severity: "warn",
-      summary: "Rejected",
-      detail: "You have rejected",
-      life: 3000,
-    });
-  };
-
-  const confirm1 = () => {
-    confirmDialog({
-      message: "Are you sure you want to proceed?",
-      header: "Confirmation",
-      icon: "pi pi-exclamation-triangle",
-      defaultFocus: "accept",
-      accept,
-      reject,
-    });
-  };
-
-  const confirm2 = () => {
-    confirmDialog({
-      message:
-        "Esta acción no se puede deshacer. Se eliminará permanentemente el vehículo del sistema.",
-      header: "Confirmar Eliminación",
-      icon: "pi pi-info-circle",
-      defaultFocus: "reject",
-      acceptClassName: "p-button-danger",
-      accept,
-      reject,
-    });
-  };
-
   // useEffect(() => {
   //   fetchVehicles();
   // }, []);
 
   useEffect(() => {
     dispatch(getVehicleList());
+    dispatch(getBrandList());
   }, [dispatch]);
 
   return (

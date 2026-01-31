@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import vehicleListSlice from './features/core/vehicule/slice/vehicle-list.slice'
+import brandListSlice from './features/core/brand/slice/brand-list.slice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       vehicleList: vehicleListSlice,
+      brandList: brandListSlice,
     },
   })
 }

@@ -6,6 +6,7 @@ import { InputText } from "primereact/inputtext";
 import { Dialog } from "primereact/dialog";
 import type { Vehicle } from "@/src/lib/types";
 import DropdownList from "@/src/components/dropdown-list";
+import { useAppSelector } from "@/src/lib/hooks";
 
 interface VehicleFormProps {
   open: boolean;
@@ -30,6 +31,7 @@ export function VehicleForm({
   const [loading, setLoading] = useState(false);
 
   const Header = vehicle ? "Editar Vehículo" : "Nuevo Vehículo";
+  const { brandList } = useAppSelector((state) => state.brandList);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,11 +68,7 @@ export function VehicleForm({
           <div className="space-y-2 flex flex-col gap-2">
             <label htmlFor="marca">Marca</label>
             <DropdownList
-              list={[
-                { id: 1, name: "Toyota" },
-                { id: 2, name: "Honda" },
-                { id: 3, name: "Ford" },
-              ]}
+              list={brandList || []}
               onSelect={(value) => setMarca(value)}
             />
           </div>
