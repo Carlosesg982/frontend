@@ -8,7 +8,7 @@ export const deleteVehicleDelete = createAsyncThunk(
   async (_, { getState }): Promise<VehicleDeleteResponse> => {
     const state = getState() as RootState;
     const id_vehicule = state.vehiculeDelete.id_vehicule;
-    const response = await api.delete<VehicleDeleteResponse>(`/vehicles/delete/${id_vehicule}`);
+    const response = await api.delete<VehicleDeleteResponse>(`/vehicles/${id_vehicule}`);
     return response.data;
   },
 );

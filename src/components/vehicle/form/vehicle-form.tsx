@@ -34,16 +34,14 @@ export function VehicleForm({
   const Header = isEditing ? "Editar Vehículo" : "Nuevo Vehículo";
   const { brandList } = useAppSelector((state) => state.brandList);
   const { modelList } = useAppSelector((state) => state.modelList);
-  const { id_brand, id_model, plate } = useAppSelector(
-    (state) => state.vehicleCreate,
-  );
+  const { plate } = useAppSelector((state) => state.vehicleCreate);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     console.log("se disparo el formulario");
     try {
-      await dispatch(postVehicleCreate({ id_brand, id_model, plate }));
+      await dispatch(postVehicleCreate());
       console.log("se creo el vehiculo");
       dispatch(setIdBrand(0));
       dispatch(setIdModel(0));
