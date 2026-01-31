@@ -12,62 +12,18 @@ import { getModelList } from "@/src/lib/features/core/model/thunks/model-list.th
 
 export default function VehiculosPage() {
   const dispatch = useAppDispatch();
-  const [formOpen, setFormOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [formOpen, setFormOpen] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   const { vehiclesList, loading } = useAppSelector(
     (state) => state.vehicleList,
   );
 
-  // const fetchVehicles = async () => {
-  //   const { data } = await supabase
-  //     .from("vehicles")
-  //     .select("*")
-  //     .order("created_at", { ascending: false });
-  //   if (data) setVehicles(data);
-  //   setLoading(false);
-  // };
-
-  const handleSubmit = async (data: {
-    marca: string;
-    modelo: string;
-    placa: string;
-  }) => {
-    // const supabase = createClient();
-
-    // if (editingVehicle) {
-    //   await supabase.from("vehicles").update(data).eq("id", editingVehicle.id);
-    // } else {
-    //   await supabase.from("vehicles").insert(data);
-    // }
-
-    setEditingVehicle(null);
-    // fetchVehicles();
+  const handleCreateVehicle = () => {
+    setIsEditing(false);
+    setFormOpen(true);
   };
-
-  // const handleEdit = (vehicle: Vehicle) => {
-  //   setEditingVehicle(vehicle);
-  //   setFormOpen(true);
-  // };
-
-  // const handleDelete = async () => {
-  //   if (!deleteId) return;
-  //   const supabase = createClient();
-  //   await supabase.from("vehicles").delete().eq("id", deleteId);
-  //   setDeleteId(null);
-  //   fetchVehicles();
-  // };
-
-  // const openNewForm = () => {
-  //   setEditingVehicle(null);
-  //   setFormOpen(true);
-  // };
-
-  // useEffect(() => {
-  //   fetchVehicles();
-  // }, []);
 
   useEffect(() => {
     dispatch(getVehicleList());
@@ -85,7 +41,7 @@ export default function VehiculosPage() {
         <Button
           label="Nuevo Vehículo"
           icon="pi pi-plus"
-          onClick={() => setFormOpen(true)}
+          onClick={handleCreateVehicle}
         />
       </div>
 
@@ -103,13 +59,13 @@ export default function VehiculosPage() {
           <Button
             label="Agregar Vehículo"
             icon="pi pi-plus"
-            onClick={() => setFormOpen(true)}
+            onClick={handleCreateVehicle}
           />
         </div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {vehicles.map((vehicle) => (
-            <VehicleCard key={vehicle.id} />
+          {vehiclesList.map((vehicle) => (
+            <VehicleCard key={vehicle.id} vehicle={vehicle} />
           ))}
         </div>
       )}
@@ -118,7 +74,7 @@ export default function VehiculosPage() {
         open={formOpen}
         onOpenChange={setFormOpen}
         vehicle={editingVehicle}
-        onSubmit={handleSubmit}
+        isEditing={isEditing}
       />
     </div>
   );

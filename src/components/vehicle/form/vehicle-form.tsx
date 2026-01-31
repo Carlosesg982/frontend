@@ -6,45 +6,52 @@ import { InputText } from "primereact/inputtext";
 import { Dialog } from "primereact/dialog";
 import type { Vehicle } from "@/src/lib/types";
 import DropdownList from "@/src/components/dropdown-list";
-import { useAppSelector } from "@/src/lib/hooks";
+import {
+  setIdBrand,
+  setIdModel,
+  setPlate,
+} from "@/src/lib/features/core/vehicule/slice/vehicle-create.slice";
+import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
+import { postVehicleCreate } from "@/src/lib/features/core/vehicule/thunks/vehicle-create.thunk";
+import { getVehicleList } from "@/src/lib/features/core/vehicule/thunks/vehicle-list.thunk";
 
 interface VehicleFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   vehicle?: Vehicle | null;
-  onSubmit: (data: {
-    marca: string;
-    modelo: string;
-    placa: string;
-  }) => Promise<void>;
+  isEditing: boolean;
 }
 
 export function VehicleForm({
   open,
   onOpenChange,
   vehicle,
-  onSubmit,
+  isEditing,
 }: VehicleFormProps) {
-  const [marca, setMarca] = useState(vehicle?.marca || "");
-  const [modelo, setModelo] = useState(vehicle?.modelo || "");
-  const [placa, setPlaca] = useState(vehicle?.placa || "");
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 
-  const Header = vehicle ? "Editar Vehículo" : "Nuevo Vehículo";
+  const Header = isEditing ? "Editar Vehículo" : "Nuevo Vehículo";
   const { brandList } = useAppSelector((state) => state.brandList);
   const { modelList } = useAppSelector((state) => state.modelList);
+  const { id_brand, id_model, plate } = useAppSelector(
+    (state) => state.vehicleCreate,
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    console.log("se disparo el formulario");
     try {
-      await onSubmit({ marca, modelo, placa });
-      setMarca("");
-      setModelo("");
-      setPlaca("");
+      await dispatch(postVehicleCreate({ id_brand, id_model, plate }));
+      console.log("se creo el vehiculo");
+      dispatch(setIdBrand(0));
+      dispatch(setIdModel(0));
+      dispatch(setPlate(""));
       onOpenChange(false);
     } finally {
       setLoading(false);
+      dispatch(getVehicleList());
     }
   };
 
@@ -59,7 +66,7 @@ export function VehicleForm({
       style={{ width: "40vw" }}
     >
       <p className="text-gray-600 mb-4">
-        {vehicle
+        {isEditing
           ? "Modifica los datos del vehículo."
           : "Ingresa los datos del nuevo vehículo."}
       </p>
@@ -70,14 +77,14 @@ export function VehicleForm({
             <label htmlFor="marca">Marca</label>
             <DropdownList
               list={brandList || []}
-              onSelect={(value) => setMarca(value)}
+              onSelect={(value) => dispatch(setIdBrand(Number(value)))}
             />
           </div>
           <div className="space-y-2 flex flex-col gap-2">
             <label htmlFor="modelo">Modelo</label>
             <DropdownList
               list={modelList || []}
-              onSelect={(value) => setModelo(value)}
+              onSelect={(value) => dispatch(setIdModel(Number(value)))}
             />
           </div>
           <div className="space-y-2 flex flex-col">
@@ -86,18 +93,28 @@ export function VehicleForm({
               id="placa"
               className="p-inputtext-sm"
               placeholder="ABC-123"
-              value={placa}
-              onChange={(e) => setPlaca(e.target.value.toUpperCase())}
+              value={plate}
+              onChange={(e) => dispatch(setPlate(e.target.value.toUpperCase()))}
               required
             />
           </div>
           <div className="flex gap-2">
-            <Button type="button" onClick={() => onOpenChange(false)}>
-              Cancelar
-            </Button>
-            <Button type="submit" disabled={loading}>
-              {loading ? "Guardando..." : vehicle ? "Actualizar" : "Registrar"}
-            </Button>
+            <Button
+              type="button"
+              label="Cancelar"
+              onClick={() => onOpenChange(false)}
+            />
+            <Button
+              type="submit"
+              disabled={loading}
+              label={
+                loading
+                  ? "Guardando..."
+                  : isEditing
+                    ? "Actualizar"
+                    : "Registrar"
+              }
+            />
           </div>
         </form>
       </div>

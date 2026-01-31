@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 
 type DropdownListProps = {
   list: { id: number; name: string }[];
-  onSelect: (value: string) => void;
+  onSelect: (value: number) => void;
 };
 
 const DropdownList = ({ list, onSelect }: DropdownListProps) => {
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (selectedId !== null) {
+      onSelect(selectedId);
+    }
+  }, [selectedId, onSelect]);
+
   const selectedCountryTemplate = (option: { id: number; name: string }) => {
     if (option) {
       return (
@@ -30,7 +38,7 @@ const DropdownList = ({ list, onSelect }: DropdownListProps) => {
 
   const handleChange = (e: DropdownChangeEvent) => {
     setSelectedCountry(e.value);
-    onSelect(e.value);
+    setSelectedId(e.value?.id || null);
   };
 
   return (
