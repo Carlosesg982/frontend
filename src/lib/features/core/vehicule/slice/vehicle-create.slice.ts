@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postVehicleCreate } from "../thunks/vehicle-create.thunk";
-import { VehicleCreateResponse, VehicleCreateState } from "../types/vehicule-create.type";
+import { VehicleCreateResponse, VehicleCreateState } from "../types/vehicle-create.type";
 
 const initialState: VehicleCreateState = {
   vehicle: null,

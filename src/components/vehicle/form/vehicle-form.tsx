@@ -39,10 +39,8 @@ export function VehicleForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    console.log("se disparo el formulario");
     try {
       await dispatch(postVehicleCreate());
-      console.log("se creo el vehiculo");
       dispatch(setIdBrand(0));
       dispatch(setIdModel(0));
       dispatch(setPlate(""));

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getVehicleList } from "../thunks/vehicle-list.thunk";
-import { VehicleListResponse, VehicleListState } from "../types/vehicule-list.type";
+import { VehicleListResponse, VehicleListState } from "../types/vehicle-list.type";
 
 const initialState: VehicleListState = {
   vehiclesList: null,

@@ -1,4 +1,4 @@
-import { VehicleList } from './vehicule-list.type';
+import { VehicleList } from './vehicle-list.type';
 
 export interface VehicleCreate {
   id_brand: number;

@@ -1,10 +1,10 @@
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
-import { VehicleList } from "@/src/lib/features/core/vehicule/types/vehicule-list.type";
+import { VehicleList } from "@/src/lib/features/core/vehicule/types/vehicle-list.type";
 import { Badge } from "primereact/badge";
 import { useAppDispatch } from "@/src/lib/hooks";
-import { setIdVehicule } from "@/src/lib/features/core/vehicule/slice/vehicule-delete.slice";
-import { deleteVehicleDelete } from "@/src/lib/features/core/vehicule/thunks/vehicule-delete.thunk";
+import { setIdVehicule } from "@/src/lib/features/core/vehicule/slice/vehicle-delete.slice";
+import { deleteVehicleDelete } from "@/src/lib/features/core/vehicule/thunks/vehicle-delete.thunk";
 import { getVehicleList } from "@/src/lib/features/core/vehicule/thunks/vehicle-list.thunk";
 
 type VehicleCardProps = {

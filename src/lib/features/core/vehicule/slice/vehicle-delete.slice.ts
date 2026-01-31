@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { deleteVehicleDelete } from "../thunks/vehicule-delete.thunk";
-import { VehicleDeleteResponse, VehicleDeleteState } from "../types/vehicule-delete.type";
+import { deleteVehicleDelete } from "../thunks/vehicle-delete.thunk";
+import { VehicleDeleteResponse, VehicleDeleteState } from "../types/vehicle-delete.type";
 
 const initialState: VehicleDeleteState = {
   isDelete: null,

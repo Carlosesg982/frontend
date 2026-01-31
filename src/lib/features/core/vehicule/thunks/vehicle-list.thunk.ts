@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { VehicleListResponse } from "../types/vehicule-list.type";
+import { VehicleListResponse } from "../types/vehicle-list.type";
 import api from "@/src/lib/axios";
 
 export const getVehicleList = createAsyncThunk(

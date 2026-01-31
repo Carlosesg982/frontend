@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { VehicleCreateResponse, VehicleCreate } from "../types/vehicule-create.type";
+import { VehicleCreateResponse } from "../types/vehicle-create.type";
 import api from "@/src/lib/axios";
 import { RootState } from "@/src/lib/store";
 
