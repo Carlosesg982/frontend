@@ -8,6 +8,7 @@ import type { Vehicle } from "@/src/lib/types";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import { getVehicleList } from "@/src/lib/features/core/vehicule/thunks/vehicle-list.thunk";
 import { getBrandList } from "@/src/lib/features/core/brand/thunks/brand-list.thunk";
+import { getModelList } from "@/src/lib/features/core/model/thunks/model-list.thunk";
 
 export default function VehiculosPage() {
   const dispatch = useAppDispatch();
@@ -71,6 +72,7 @@ export default function VehiculosPage() {
   useEffect(() => {
     dispatch(getVehicleList());
     dispatch(getBrandList());
+    dispatch(getModelList());
   }, [dispatch]);
 
   return (

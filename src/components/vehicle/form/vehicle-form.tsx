@@ -32,6 +32,7 @@ export function VehicleForm({
 
   const Header = vehicle ? "Editar Vehículo" : "Nuevo Vehículo";
   const { brandList } = useAppSelector((state) => state.brandList);
+  const { modelList } = useAppSelector((state) => state.modelList);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,12 +75,9 @@ export function VehicleForm({
           </div>
           <div className="space-y-2 flex flex-col gap-2">
             <label htmlFor="modelo">Modelo</label>
-            <InputText
-              id="modelo"
-              placeholder="Corolla, Civic, F-150..."
-              value={modelo}
-              onChange={(e) => setModelo(e.target.value)}
-              required
+            <DropdownList
+              list={modelList || []}
+              onSelect={(value) => setModelo(value)}
             />
           </div>
           <div className="space-y-2 flex flex-col">
