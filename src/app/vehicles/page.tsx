@@ -1,20 +1,26 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import VehicleCard from "@/components/vehicle-card";
-import { VehicleForm } from "@/components/vehicle-form";
+import VehicleCard from "@/src/components/vehicle/card/vehicle-card";
+import { VehicleForm } from "@/src/components/vehicle/form/vehicle-form";
 import { Button } from "primereact/button";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import type { Vehicle } from "@/lib/types";
+import type { Vehicle } from "@/src/lib/types";
+import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
+import { getVehicleList } from "@/src/lib/features/core/vehicule/thunks/vehicle-list.thunk";
 
 export default function VehiculosPage() {
+  const dispatch = useAppDispatch();
   const toast = useRef<Toast>(null);
-  const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+
+  const { vehiclesList, loading } = useAppSelector(
+    (state) => state.vehicleList,
+  );
 
   // const fetchVehicles = async () => {
   //   const { data } = await supabase
@@ -106,49 +112,40 @@ export default function VehiculosPage() {
   //   fetchVehicles();
   // }, []);
 
+  useEffect(() => {
+    dispatch(getVehicleList());
+  }, [dispatch]);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Vehículos</h1>
-          <p className="text-muted-foreground mt-1">
-            Gestiona los vehículos de tu flota
-          </p>
+          <h1 className="text-3xl font-bold">Vehículos</h1>
+          <p className=" mt-1">Gestiona los vehículos de tu flota</p>
         </div>
-        <Button>
-          <i
-            className="pi pi-plus"
-            style={{ color: "green", fontSize: "1.5rem" }}
-          ></i>
-          Nuevo Vehículo
-        </Button>
+        <Button
+          label="Nuevo Vehículo"
+          icon="pi pi-plus"
+          onClick={() => setFormOpen(true)}
+        />
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-muted-foreground">
-          Cargando...
-        </div>
-      ) : vehicles.length === 0 ? (
+        <div className="text-center py-12 ">Cargando...</div>
+      ) : vehiclesList === null ? (
         <div className="text-center py-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-muted rounded-full mb-4">
-            <i
-              className="pi pi-truck"
-              style={{ color: "green", fontSize: "1.5rem" }}
-            ></i>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500/10 rounded-full mb-4">
+            <i className="pi pi-truck" style={{ fontSize: "1.5rem" }}></i>
           </div>
-          <h3 className="text-lg font-medium text-foreground mb-2">
+          <h3 className="text-lg font-medium mb-2">
             No hay vehículos registrados
           </h3>
-          <p className="text-muted-foreground mb-4">
-            Comienza agregando tu primer vehículo
-          </p>
-          <Button>
-            <i
-              className="pi pi-plus"
-              style={{ color: "green", fontSize: "1.5rem" }}
-            ></i>
-            Agregar Vehículo
-          </Button>
+          <p className=" mb-4">Comienza agregando tu primer vehículo</p>
+          <Button
+            label="Agregar Vehículo"
+            icon="pi pi-plus"
+            onClick={() => setFormOpen(true)}
+          />
         </div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -164,22 +161,6 @@ export default function VehiculosPage() {
         vehicle={editingVehicle}
         onSubmit={handleSubmit}
       />
-
-      <Toast ref={toast} />
-      <ConfirmDialog />
-      <div className="card flex flex-wrap gap-2 justify-content-center">
-        <Button
-          onClick={confirm1}
-          icon="pi pi-check"
-          label="Confirm"
-          className="mr-2"
-        ></Button>
-        <Button
-          onClick={confirm2}
-          icon="pi pi-times"
-          label="Eliminar Vehículo"
-        ></Button>
-      </div>
     </div>
   );
 }

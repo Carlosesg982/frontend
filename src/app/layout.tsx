@@ -5,6 +5,7 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import Header from "./layout/header";
+import Providers from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,10 +32,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <div className="min-h-screen bg-gray-300 text-black">
-          <Header />
-          <main>{children}</main>
-        </div>
+        <Providers>
+          <div className="min-h-screen bg-gray-300 text-black">
+            <Header />
+            <main>{children}</main>
+          </div>
+        </Providers>
       </body>
     </html>
   );

@@ -3,9 +3,9 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { FloatLabel } from "primereact/floatlabel";
 import { Dialog } from "primereact/dialog";
-import type { Vehicle } from "@/lib/types";
+import type { Vehicle } from "@/src/lib/types";
+import DropdownList from "@/src/components/dropdown-list";
 
 interface VehicleFormProps {
   open: boolean;
@@ -53,7 +53,7 @@ export function VehicleForm({
         if (!open) return;
         onOpenChange(false);
       }}
-      style={{ width: "50vw" }}
+      style={{ width: "40vw" }}
     >
       <p className="text-gray-600 mb-4">
         {vehicle
@@ -63,48 +63,46 @@ export function VehicleForm({
 
       <div className="flex flex-col gap-4">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <FloatLabel>
-              <label htmlFor="marca">Marca</label>
-              <InputText
-                id="marca"
-                placeholder="Toyota, Honda, Ford..."
-                value={marca}
-                onChange={(e) => setMarca(e.target.value)}
-                required
-              />
-            </FloatLabel>
+          <div className="space-y-2 flex flex-col gap-2">
+            <label htmlFor="marca">Marca</label>
+            <DropdownList
+              list={[
+                { id: 1, name: "Toyota" },
+                { id: 2, name: "Honda" },
+                { id: 3, name: "Ford" },
+              ]}
+              onSelect={(value) => setMarca(value)}
+            />
           </div>
-          <div className="space-y-2">
-            <FloatLabel>
-              <label htmlFor="modelo">Modelo</label>
-              <InputText
-                id="modelo"
-                placeholder="Corolla, Civic, F-150..."
-                value={modelo}
-                onChange={(e) => setModelo(e.target.value)}
-                required
-              />
-            </FloatLabel>
+          <div className="space-y-2 flex flex-col gap-2">
+            <label htmlFor="modelo">Modelo</label>
+            <InputText
+              id="modelo"
+              placeholder="Corolla, Civic, F-150..."
+              value={modelo}
+              onChange={(e) => setModelo(e.target.value)}
+              required
+            />
           </div>
-          <div className="space-y-2">
-            <FloatLabel>
-              <label htmlFor="placa">Placa</label>
-              <InputText
-                id="placa"
-                placeholder="ABC-123"
-                value={placa}
-                onChange={(e) => setPlaca(e.target.value.toUpperCase())}
-                required
-              />
-            </FloatLabel>
+          <div className="space-y-2 flex flex-col">
+            <label htmlFor="placa">Placa</label>
+            <InputText
+              id="placa"
+              className="p-inputtext-sm"
+              placeholder="ABC-123"
+              value={placa}
+              onChange={(e) => setPlaca(e.target.value.toUpperCase())}
+              required
+            />
           </div>
-          <Button type="button" onClick={() => onOpenChange(false)}>
-            Cancelar
-          </Button>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Guardando..." : vehicle ? "Actualizar" : "Registrar"}
-          </Button>
+          <div className="flex gap-2">
+            <Button type="button" onClick={() => onOpenChange(false)}>
+              Cancelar
+            </Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Guardando..." : vehicle ? "Actualizar" : "Registrar"}
+            </Button>
+          </div>
         </form>
       </div>
     </Dialog>

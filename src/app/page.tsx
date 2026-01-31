@@ -48,7 +48,7 @@ export default function Home() {
           subTitle="Registra, edita y elimina vehículos de tu flota."
           className="group hover:shadow-lg transition-shadow"
         >
-          <Link href="/Vehicles">
+          <Link href="/vehicles">
             <Button
               label="Ver Vehículos"
               icon="pi pi-arrow-right"
