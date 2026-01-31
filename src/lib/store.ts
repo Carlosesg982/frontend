@@ -3,6 +3,7 @@ import vehicleListSlice from './features/core/vehicule/slice/vehicle-list.slice'
 import vehicleCreateSlice from './features/core/vehicule/slice/vehicle-create.slice'
 import brandListSlice from './features/core/brand/slice/brand-list.slice'
 import modelListSlice from './features/core/model/slice/model-list.slice'
+import vehicleDeleteSlice from './features/core/vehicule/slice/vehicule-delete.slice'
 
 export const makeStore = () => {
   return configureStore({
@@ -11,6 +12,7 @@ export const makeStore = () => {
       brandList: brandListSlice,
       modelList: modelListSlice,
       vehicleCreate: vehicleCreateSlice,
+      vehiculeDelete: vehicleDeleteSlice,
     },
   })
 }
