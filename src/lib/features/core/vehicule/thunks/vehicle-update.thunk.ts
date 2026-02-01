@@ -8,9 +8,9 @@ export const putVehicleUpdate = createAsyncThunk(
   async (_, { getState }): Promise<VehicleUpdateResponse> => {
     const state = getState() as RootState;
     const id = state.vehicleUpdate.id;
-    const id_brand = state.vehicleUpdate.id_brand;
-    const id_model = state.vehicleUpdate.id_model;
-    const plate = state.vehicleUpdate.plate;
+    const id_brand = state.vehicleCreate.id_brand;
+    const id_model = state.vehicleCreate.id_model;
+    const plate = state.vehicleCreate.plate;
     const response = await api.put<VehicleUpdateResponse>(`/vehicles/${id}`, { id_brand, id_model, plate });
     return response.data;
   },

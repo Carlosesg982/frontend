@@ -1,50 +1,45 @@
 import React from "react";
-
 import { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Dialog } from "primereact/dialog";
-import type { Vehicle } from "@/src/lib/types";
 import DropdownList from "@/src/components/dropdown-list";
 import {
   setIdBrand,
   setIdModel,
   setPlate,
+  setFormOpen,
 } from "@/src/lib/features/core/vehicule/slice/vehicle-create.slice";
+import { setId } from "@/src/lib/features/core/vehicule/slice/vehicle-update.slice";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import { postVehicleCreate } from "@/src/lib/features/core/vehicule/thunks/vehicle-create.thunk";
 import { getVehicleList } from "@/src/lib/features/core/vehicule/thunks/vehicle-list.thunk";
+import { putVehicleUpdate } from "@/src/lib/features/core/vehicule/thunks/vehicle-update.thunk";
 
-interface VehicleFormProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  vehicle?: Vehicle | null;
-  isEditing: boolean;
-}
-
-export function VehicleForm({
-  open,
-  onOpenChange,
-  vehicle,
-  isEditing,
-}: VehicleFormProps) {
+export function VehicleForm() {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
-
-  const Header = isEditing ? "Editar Vehículo" : "Nuevo Vehículo";
   const { brandList } = useAppSelector((state) => state.brandList);
   const { modelList } = useAppSelector((state) => state.modelList);
-  const { plate } = useAppSelector((state) => state.vehicleCreate);
+  const { plate, formOpen } = useAppSelector((state) => state.vehicleCreate);
+  const { isEditing } = useAppSelector((state) => state.vehicleUpdate);
+
+  const Header = isEditing ? "Editar Vehículo" : "Nuevo Vehículo";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await dispatch(postVehicleCreate());
+      if (isEditing) {
+        await dispatch(putVehicleUpdate());
+      } else {
+        await dispatch(postVehicleCreate());
+      }
+      dispatch(setId(0));
       dispatch(setIdBrand(0));
       dispatch(setIdModel(0));
       dispatch(setPlate(""));
-      onOpenChange(false);
+      dispatch(setFormOpen(false));
     } finally {
       setLoading(false);
       dispatch(getVehicleList());
@@ -53,11 +48,11 @@ export function VehicleForm({
 
   return (
     <Dialog
-      visible={open}
+      visible={formOpen}
       header={Header}
       onHide={() => {
-        if (!open) return;
-        onOpenChange(false);
+        if (!formOpen) return;
+        dispatch(setFormOpen(false));
       }}
       style={{ width: "40vw" }}
     >
@@ -98,7 +93,7 @@ export function VehicleForm({
             <Button
               type="button"
               label="Cancelar"
-              onClick={() => onOpenChange(false)}
+              onClick={() => dispatch(setFormOpen(false))}
             />
             <Button
               type="submit"

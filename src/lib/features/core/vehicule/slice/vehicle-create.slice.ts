@@ -8,6 +8,7 @@ const initialState: VehicleCreateState = {
   id_brand: 0,
   id_model: 0,
   plate: "",
+  formOpen: false,
 };
 
 const vehicleCreateSlice = createSlice({
@@ -22,6 +23,9 @@ const vehicleCreateSlice = createSlice({
     },
     setPlate(state, action: PayloadAction<string>) {
       state.plate = action.payload;
+    },
+    setFormOpen(state, action: PayloadAction<boolean>) {
+      state.formOpen = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -43,5 +47,5 @@ const vehicleCreateSlice = createSlice({
   },
 });
 
-export const { setIdBrand, setIdModel, setPlate } = vehicleCreateSlice.actions;
+export const { setIdBrand, setIdModel, setPlate, setFormOpen } = vehicleCreateSlice.actions;
 export default vehicleCreateSlice.reducer;

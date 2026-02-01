@@ -15,8 +15,5 @@ export interface VehicleUpdateState {
   vehicle: VehicleList | null;
   loading: boolean;
   id: number;
-  id_brand: number;
-  id_model: number;
-  plate: string;
   isEditing: boolean;
 }

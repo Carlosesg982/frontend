@@ -2,10 +2,20 @@ import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { VehicleList } from "@/src/lib/features/core/vehicule/types/vehicle-list.type";
 import { Badge } from "primereact/badge";
-import { useAppDispatch } from "@/src/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import { setIdVehicule } from "@/src/lib/features/core/vehicule/slice/vehicle-delete.slice";
 import { deleteVehicleDelete } from "@/src/lib/features/core/vehicule/thunks/vehicle-delete.thunk";
 import { getVehicleList } from "@/src/lib/features/core/vehicule/thunks/vehicle-list.thunk";
+import {
+  setIsEditing,
+  setId,
+} from "@/src/lib/features/core/vehicule/slice/vehicle-update.slice";
+import {
+  setIdBrand,
+  setIdModel,
+  setPlate,
+  setFormOpen,
+} from "@/src/lib/features/core/vehicule/slice/vehicle-create.slice";
 
 type VehicleCardProps = {
   vehicle: VehicleList;
@@ -13,6 +23,21 @@ type VehicleCardProps = {
 
 const VehicleCard = ({ vehicle }: VehicleCardProps) => {
   const dispatch = useAppDispatch();
+  const { brandList } = useAppSelector((state) => state.brandList);
+  const { modelList } = useAppSelector((state) => state.modelList);
+
+  const handleUpdateVehicle = async () => {
+    await dispatch(setIsEditing(true));
+    await dispatch(setId(vehicle.id));
+    await dispatch(
+      setIdBrand(brandList?.find((b) => b.name === vehicle.brand)?.id || 0),
+    );
+    await dispatch(
+      setIdModel(modelList?.find((m) => m.name === vehicle.model)?.id || 0),
+    );
+    await dispatch(setPlate(vehicle.plate));
+    await dispatch(setFormOpen(true));
+  };
 
   const handleDelete = async () => {
     await dispatch(setIdVehicule(vehicle.id));
@@ -31,7 +56,12 @@ const VehicleCard = ({ vehicle }: VehicleCardProps) => {
       <h3 className="font-semibold text-3xl p-3 mt-6 ml-6">{vehicle.brand}</h3>
       <div className="flex items-start justify-between mt-6 ml-6">
         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button icon="pi pi-pencil" className="h-8 w-8" severity="success" />
+          <Button
+            icon="pi pi-pencil"
+            className="h-8 w-8"
+            severity="success"
+            onClick={() => handleUpdateVehicle()}
+          />
           <Button
             icon="pi pi-trash"
             className="h-8 w-8"

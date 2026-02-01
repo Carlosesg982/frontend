@@ -6,9 +6,6 @@ const initialState: VehicleUpdateState = {
   vehicle: null,
   loading: true,
   id: 0,
-  id_brand: 0,
-  id_model: 0,
-  plate: "",
   isEditing: false,
 };
 
@@ -16,15 +13,6 @@ const vehicleUpdateSlice = createSlice({
   name: "vehicleUpdate",
   initialState,
   reducers: {
-    setIdBrand(state, action: PayloadAction<number>) {
-      state.id_brand = action.payload;
-    },
-    setIdModel(state, action: PayloadAction<number>) {
-      state.id_model = action.payload;
-    },
-    setPlate(state, action: PayloadAction<string>) {
-      state.plate = action.payload;
-    },
     setId(state, action: PayloadAction<number>) {
       state.id = action.payload;
     },
@@ -51,5 +39,5 @@ const vehicleUpdateSlice = createSlice({
   },
 });
 
-export const { setIdBrand, setIdModel, setPlate, setId, setIsEditing } = vehicleUpdateSlice.actions;
+export const { setId, setIsEditing } = vehicleUpdateSlice.actions;
 export default vehicleUpdateSlice.reducer;

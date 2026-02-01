@@ -1,28 +1,25 @@
 "use client";
-
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import VehicleCard from "@/src/components/vehicle/card/vehicle-card";
 import { VehicleForm } from "@/src/components/vehicle/form/vehicle-form";
 import { Button } from "primereact/button";
-import type { Vehicle } from "@/src/lib/types";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import { getVehicleList } from "@/src/lib/features/core/vehicule/thunks/vehicle-list.thunk";
 import { getBrandList } from "@/src/lib/features/core/brand/thunks/brand-list.thunk";
 import { getModelList } from "@/src/lib/features/core/model/thunks/model-list.thunk";
+import { setFormOpen } from "@/src/lib/features/core/vehicule/slice/vehicle-create.slice";
+import { setIsEditing } from "@/src/lib/features/core/vehicule/slice/vehicle-update.slice";
 
 export default function VehiculosPage() {
   const dispatch = useAppDispatch();
-  const [formOpen, setFormOpen] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
 
   const { vehiclesList, loading } = useAppSelector(
     (state) => state.vehicleList,
   );
 
-  const handleCreateVehicle = () => {
-    setIsEditing(false);
-    setFormOpen(true);
+  const handleCreateVehicle = async () => {
+    await dispatch(setIsEditing(false));
+    await dispatch(setFormOpen(true));
   };
 
   useEffect(() => {
@@ -41,7 +38,7 @@ export default function VehiculosPage() {
         <Button
           label="Nuevo Vehículo"
           icon="pi pi-plus"
-          onClick={handleCreateVehicle}
+          onClick={() => handleCreateVehicle()}
         />
       </div>
 
@@ -59,7 +56,7 @@ export default function VehiculosPage() {
           <Button
             label="Agregar Vehículo"
             icon="pi pi-plus"
-            onClick={handleCreateVehicle}
+            onClick={() => handleCreateVehicle()}
           />
         </div>
       ) : (
@@ -70,12 +67,7 @@ export default function VehiculosPage() {
         </div>
       )}
 
-      <VehicleForm
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        vehicle={editingVehicle}
-        isEditing={isEditing}
-      />
+      <VehicleForm />
     </div>
   );
 }
