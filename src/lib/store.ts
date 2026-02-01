@@ -5,6 +5,7 @@ import brandListSlice from './features/core/brand/slice/brand-list.slice'
 import modelListSlice from './features/core/model/slice/model-list.slice'
 import vehicleDeleteSlice from './features/core/vehicule/slice/vehicle-delete.slice'
 import vehicleUpdateSlice from './features/core/vehicule/slice/vehicle-update.slice'
+import movementCreateSlice from './features/core/movement/slice/movement-create.slice'
 
 export const makeStore = () => {
   return configureStore({
@@ -15,6 +16,7 @@ export const makeStore = () => {
       vehicleCreate: vehicleCreateSlice,
       vehicleUpdate: vehicleUpdateSlice,
       vehicleDelete: vehicleDeleteSlice,
+      movementCreate: movementCreateSlice,
     },
   })
 }

@@ -64,7 +64,7 @@ export default function Home() {
           subTitle="Registra entradas y salidas de vehículos"
           className="group hover:shadow-lg transition-shadow"
         >
-          <Link href="/registrar">
+          <Link href="/register">
             <Button
               label="Nuevo Registro"
               icon="pi pi-arrow-right"

@@ -5,7 +5,7 @@ const navItems = [
   { href: "/", label: "Inicio", icon: "pi pi-objects-column" },
   { href: "/vehicles", label: "Vehículos", icon: "pi pi-truck" },
   {
-    href: "/registrar",
+    href: "/register",
     label: "Registrar E/S",
     icon: "pi pi-arrow-right-arrow-left",
   },
