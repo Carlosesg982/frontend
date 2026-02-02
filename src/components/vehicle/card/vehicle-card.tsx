@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { VehicleList } from "@/src/lib/features/core/vehicule/types/vehicle-list.type";
@@ -16,15 +17,49 @@ import {
   setPlate,
   setFormOpen,
 } from "@/src/lib/features/core/vehicule/slice/vehicle-create.slice";
+import { confirmDialog } from "primereact/confirmdialog";
+import { Toast } from "primereact/toast";
 
 type VehicleCardProps = {
   vehicle: VehicleList;
+  toast: RefObject<Toast>;
 };
 
-const VehicleCard = ({ vehicle }: VehicleCardProps) => {
+const VehicleCard = ({ vehicle, toast }: VehicleCardProps) => {
   const dispatch = useAppDispatch();
   const { brandList } = useAppSelector((state) => state.brandList);
   const { modelList } = useAppSelector((state) => state.modelList);
+
+  const accept = () => {
+    handleDelete();
+    toast.current?.show({
+      severity: "info",
+      summary: "Confirmado",
+      detail: "Se ha eliminado el vehículo",
+      life: 3000,
+    });
+  };
+
+  const reject = () => {
+    toast.current?.show({
+      severity: "warn",
+      summary: "Rechazado",
+      detail: "No se ha eliminado el vehículo",
+      life: 3000,
+    });
+  };
+
+  const confirm2 = () => {
+    confirmDialog({
+      message: "¿Quieres eliminar este vehículo?",
+      header: "Eliminación de registro",
+      icon: "pi pi-info-circle",
+      defaultFocus: "reject",
+      acceptClassName: "p-button-danger",
+      accept,
+      reject,
+    });
+  };
 
   const handleUpdateVehicle = async () => {
     await dispatch(setIsEditing(true));
@@ -66,7 +101,7 @@ const VehicleCard = ({ vehicle }: VehicleCardProps) => {
             icon="pi pi-trash"
             className="h-8 w-8"
             severity="danger"
-            onClick={() => handleDelete()}
+            onClick={confirm2}
           />
         </div>
       </div>

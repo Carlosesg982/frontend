@@ -26,6 +26,14 @@ export function VehicleForm() {
 
   const Header = isEditing ? "Editar Vehículo" : "Nuevo Vehículo";
 
+  const handleReset = () => {
+    dispatch(setId(0));
+    dispatch(setIdBrand(0));
+    dispatch(setIdModel(0));
+    dispatch(setPlate(""));
+    dispatch(setFormOpen(false));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -35,11 +43,7 @@ export function VehicleForm() {
       } else {
         await dispatch(postVehicleCreate());
       }
-      dispatch(setId(0));
-      dispatch(setIdBrand(0));
-      dispatch(setIdModel(0));
-      dispatch(setPlate(""));
-      dispatch(setFormOpen(false));
+      handleReset();
     } finally {
       setLoading(false);
       dispatch(getVehicleList());
@@ -84,6 +88,7 @@ export function VehicleForm() {
               id="placa"
               className="p-inputtext-sm"
               placeholder="ABC-123"
+              maxLength={7}
               value={plate}
               onChange={(e) => dispatch(setPlate(e.target.value.toUpperCase()))}
               required
@@ -93,7 +98,7 @@ export function VehicleForm() {
             <Button
               type="button"
               label="Cancelar"
-              onClick={() => dispatch(setFormOpen(false))}
+              onClick={() => handleReset()}
             />
             <Button
               type="submit"
