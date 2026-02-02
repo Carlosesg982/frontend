@@ -81,29 +81,32 @@ const VehicleCard = ({ vehicle, toast }: VehicleCardProps) => {
   };
 
   const Header = (
-    <div className="flex gap-2">
-      <div className="p-3 bg-blue-500/10 rounded-lg w-fit mb-2 ml-6 mt-6">
-        <i
-          className="pi pi-truck"
-          style={{ color: "var(--primary-color)", fontSize: "1.5rem" }}
-        ></i>
-      </div>
-      <h3 className="font-semibold text-3xl p-3 mt-6 ml-6">{vehicle.brand}</h3>
-      <div className="flex items-start justify-between mt-6 ml-6">
-        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button
-            icon="pi pi-pencil"
-            className="h-8 w-8"
-            severity="success"
-            onClick={() => handleUpdateVehicle()}
-          />
-          <Button
-            icon="pi pi-trash"
-            className="h-8 w-8"
-            severity="danger"
-            onClick={confirm2}
-          />
+    <div className="flex items-center justify-between w-full p-4">
+      <div className="flex items-center gap-4">
+        <div className="p-3 bg-blue-500/10 rounded-lg flex-shrink-0">
+          <i
+            className="pi pi-truck"
+            style={{ color: "var(--primary-color)", fontSize: "1.5rem" }}
+          ></i>
         </div>
+        <h3 className="font-semibold text-3xl whitespace-nowrap">
+          {vehicle.brand}
+        </h3>
+      </div>
+
+      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <Button
+          icon="pi pi-pencil"
+          className="h-8 w-8"
+          severity="success"
+          onClick={() => handleUpdateVehicle()}
+        />
+        <Button
+          icon="pi pi-trash"
+          className="h-8 w-8"
+          severity="danger"
+          onClick={confirm2}
+        />
       </div>
     </div>
   );
@@ -122,7 +125,7 @@ const VehicleCard = ({ vehicle, toast }: VehicleCardProps) => {
         header={Header}
         title={title}
         subTitle={subtitle}
-        className="group hover:shadow-md transition-shadow h-50"
+        className="group hover:shadow-md transition-shadow"
       ></Card>
     </div>
   );
