@@ -81,7 +81,8 @@ const VehicleCard = ({ vehicle, toast }: VehicleCardProps) => {
   };
 
   const Header = (
-    <div className="flex items-center justify-between w-full p-4">
+    <div className="flex items-center justify-between w-full p-4 group">
+      {/* Sección izquierda: Icono + Marca */}
       <div className="flex items-center gap-4">
         <div className="p-3 bg-blue-500/10 rounded-lg flex-shrink-0">
           <i
@@ -89,22 +90,21 @@ const VehicleCard = ({ vehicle, toast }: VehicleCardProps) => {
             style={{ color: "var(--primary-color)", fontSize: "1.5rem" }}
           ></i>
         </div>
-        <h3 className="font-semibold text-3xl whitespace-nowrap">
+        <h3 className="font-bold text-2xl whitespace-nowrap">
           {vehicle.brand}
         </h3>
       </div>
 
-      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+      {/* Sección derecha: Botones de acción */}
+      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
         <Button
           icon="pi pi-pencil"
-          className="h-8 w-8"
-          severity="success"
+          className="h-10 w-10 p-button-rounded p-button-success"
           onClick={() => handleUpdateVehicle()}
         />
         <Button
           icon="pi pi-trash"
-          className="h-8 w-8"
-          severity="danger"
+          className="h-10 w-10 p-button-rounded p-button-danger"
           onClick={confirm2}
         />
       </div>
