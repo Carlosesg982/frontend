@@ -57,6 +57,7 @@ const DropdownVehicle = ({ list, onSelect }: DropdownVehicleProps) => {
         valueTemplate={selectedCountryTemplate}
         itemTemplate={countryOptionTemplate}
         className="w-full h-12"
+        required
       />
     </div>
   );
