@@ -80,6 +80,7 @@ const EntryForm = () => {
           <InputText
             id="motorista"
             placeholder="Nombre completo"
+            maxLength={100}
             value={motorcyclist}
             onChange={(e) => dispatch(setMotorcyclist(e.target.value))}
             required
@@ -91,6 +92,8 @@ const EntryForm = () => {
           <InputNumber
             inputId="kilometraje"
             placeholder="Ej: 50000"
+            max={9223372036854775807}
+            maxLength={19}
             value={mileage}
             onChange={(e) => dispatch(setMileage(e.value || 0))}
             required

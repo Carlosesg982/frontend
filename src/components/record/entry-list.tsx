@@ -19,17 +19,19 @@ const EntryList = () => {
   const { movements, loading, motorcyclist, id_vehicles, created_at } =
     useAppSelector((state) => state.movementList);
 
-  const clearFilters = () => {
-    dispatch(setCreatedAt(null));
-    dispatch(setIdVehicles(0));
-    dispatch(setMotorcyclist(""));
+  const clearFilters = async () => {
+    await dispatch(setCreatedAt(null));
+    await dispatch(setIdVehicles(0));
+    await dispatch(setMotorcyclist(""));
   };
 
   const hasActiveFilters =
-    created_at == null || id_vehicles > 0 || motorcyclist !== "";
+    created_at === null && id_vehicles === 0 && motorcyclist === "";
 
+  console.log(id_vehicles);
   const handleSearch = () => {
     dispatch(postMovementList());
+    clearFilters();
   };
 
   const typeBodyTemplate = (product: { movements: "in" | "out" }) => {
@@ -105,6 +107,7 @@ const EntryList = () => {
             <InputText
               id="filterMotorcyclist"
               placeholder="Buscar por nombre..."
+              max={100}
               value={motorcyclist}
               onChange={(e) => dispatch(setMotorcyclist(e.target.value))}
             />
@@ -113,14 +116,14 @@ const EntryList = () => {
             <Button
               label="Buscar"
               onClick={handleSearch}
-              disabled={hasActiveFilters === true}
+              disabled={hasActiveFilters}
             />
           </div>
           <div className="flex items-end">
-            {hasActiveFilters && (
+            {!hasActiveFilters && (
               <button
-                onClick={clearFilters}
-                className="text-sm text-primary hover:underline"
+                onClick={() => clearFilters()}
+                className="text-sm text-primary hover:underline cursor-pointer"
               >
                 Limpiar filtros
               </button>
