@@ -9,7 +9,7 @@ const navItems = [
     label: "Registrar E/S",
     icon: "pi pi-arrow-right-arrow-left",
   },
-  { href: "/historial", label: "Historial", icon: "pi pi-clipboard" },
+  { href: "/record", label: "Historial", icon: "pi pi-clipboard" },
 ];
 
 const Header = () => {

@@ -82,7 +82,7 @@ export default function Home() {
           subTitle="Consulta el historial de movimientos"
           className="group hover:shadow-lg transition-shadow"
         >
-          <Link href="/historial">
+          <Link href="/record">
             <Button
               label="Ver Historial"
               icon="pi pi-arrow-right"
