@@ -8,8 +8,9 @@ export const postMovementList = createAsyncThunk(
   async (_, { getState }): Promise<MovementListResponse> => {
     const state = getState() as RootState;
     const motorcyclist = state.movementList.motorcyclist;
-    const response = await api.post<MovementListResponse>(`/movements/list/`, { p_motorcyclist: motorcyclist });
-    
+    const id_vehicles = state.movementList.id_vehicles;
+    const created_at = state.movementList.created_at ? new Date(state.movementList.created_at) : null;
+    const response = await api.post<MovementListResponse>(`/movements/list/`, { motorcyclist, id_vehicles, created_at });
     return response.data;
   },
 );

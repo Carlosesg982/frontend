@@ -1,4 +1,3 @@
-import { useState } from "react";
 import DropdownVehicle from "@/src/components/register/dropdown-vehicle";
 import { Badge } from "primereact/badge";
 import { InputText } from "primereact/inputtext";
@@ -6,27 +5,28 @@ import { DataTable } from "primereact/datatable";
 import { Card } from "primereact/card";
 import { Column } from "primereact/column";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
-import { setMotorcyclist } from "@/src/lib/features/core/movement/slice/movement-list.slice";
+import {
+  setMotorcyclist,
+  setIdVehicles,
+  setCreatedAt,
+} from "@/src/lib/features/core/movement/slice/movement-list.slice";
 import { postMovementList } from "@/src/lib/features/core/movement/thunks/movement-list.thunk";
 import { Button } from "primereact/button";
 
 const EntryList = () => {
   const dispatch = useAppDispatch();
   const { vehiclesList } = useAppSelector((state) => state.vehicleList);
-  const { movements, loading, motorcyclist } = useAppSelector(
-    (state) => state.movementList,
-  );
-  const [vehicles, setVehicles] = useState<number[]>([]);
-  const [filterFecha, setFilterFecha] = useState("");
-  const [filterVehicle, setFilterVehicle] = useState("");
+  const { movements, loading, motorcyclist, id_vehicles, created_at } =
+    useAppSelector((state) => state.movementList);
 
   const clearFilters = () => {
-    setFilterFecha("");
-    setFilterVehicle("");
+    dispatch(setCreatedAt(null));
+    dispatch(setIdVehicles(0));
     dispatch(setMotorcyclist(""));
   };
 
-  const hasActiveFilters = filterFecha || filterVehicle || motorcyclist;
+  const hasActiveFilters =
+    created_at == null || id_vehicles > 0 || motorcyclist !== "";
 
   const handleSearch = () => {
     dispatch(postMovementList());
@@ -87,15 +87,17 @@ const EntryList = () => {
             <InputText
               id="filterFecha"
               type="date"
-              value={filterFecha}
-              onChange={(e) => setFilterFecha(e.target.value)}
+              value={created_at ? created_at.split("T")[0] : ""}
+              onChange={(e) =>
+                dispatch(setCreatedAt(e.target.value ? e.target.value : null))
+              }
             />
           </div>
           <div className="space-y-2 flex flex-col">
             <label htmlFor="filterVehicle">Vehículo</label>
             <DropdownVehicle
               list={vehiclesList || []}
-              onSelect={(value) => setVehicles([value])}
+              onSelect={(value) => dispatch(setIdVehicles(value))}
             />
           </div>
           <div className="space-y-2 flex flex-col">
@@ -107,8 +109,12 @@ const EntryList = () => {
               onChange={(e) => dispatch(setMotorcyclist(e.target.value))}
             />
           </div>
-          <div>
-            <Button label="Buscar" onClick={handleSearch} />
+          <div className="space-y-2">
+            <Button
+              label="Buscar"
+              onClick={handleSearch}
+              disabled={hasActiveFilters === true}
+            />
           </div>
           <div className="flex items-end">
             {hasActiveFilters && (

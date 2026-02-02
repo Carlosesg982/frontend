@@ -20,4 +20,6 @@ export interface MovementListState {
   movements: MovementList[] | null;
   loading: boolean;
   motorcyclist: string;
+  id_vehicles: number;
+  created_at: string | null;
 }
