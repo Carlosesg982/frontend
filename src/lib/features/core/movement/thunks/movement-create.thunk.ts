@@ -7,7 +7,6 @@ export const postMovementCreate = createAsyncThunk(
   "movement/create",
   async (_, { getState }): Promise<MovementCreateResponse> => {
     const state = getState() as RootState;
-
     const movements = state.movementCreate.movements;
     const motorcyclist = state.movementCreate.motorcyclist;
     const mileage = state.movementCreate.mileage;

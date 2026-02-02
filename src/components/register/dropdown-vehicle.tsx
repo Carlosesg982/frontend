@@ -52,7 +52,6 @@ const DropdownVehicle = ({ list, onSelect }: DropdownVehicleProps) => {
         onChange={handleChange}
         options={list}
         optionLabel="name"
-        placeholder="Selecciones una marca"
         filter
         filterDelay={400}
         valueTemplate={selectedCountryTemplate}

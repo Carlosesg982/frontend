@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "@/src/lib/hooks";
 import { getVehicleList } from "@/src/lib/features/core/vehicule/thunks/vehicle-list.thunk";
-import { getMovementList } from "@/src/lib/features/core/movement/thunks/movement-list.thunk";
+import { postMovementList } from "@/src/lib/features/core/movement/thunks/movement-list.thunk";
 import EntryList from "@/src/components/record/entry-list";
 
 const Record = () => {
@@ -11,7 +11,7 @@ const Record = () => {
 
   useEffect(() => {
     dispatch(getVehicleList());
-    dispatch(getMovementList());
+    dispatch(postMovementList());
   }, [dispatch]);
 
   return (

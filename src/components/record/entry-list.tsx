@@ -6,22 +6,31 @@ import { DataTable } from "primereact/datatable";
 import { Card } from "primereact/card";
 import { Column } from "primereact/column";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
+import { setMotorcyclist } from "@/src/lib/features/core/movement/slice/movement-list.slice";
+import { postMovementList } from "@/src/lib/features/core/movement/thunks/movement-list.thunk";
+import { Button } from "primereact/button";
 
 const EntryList = () => {
+  const dispatch = useAppDispatch();
   const { vehiclesList } = useAppSelector((state) => state.vehicleList);
-  const { movements, loading } = useAppSelector((state) => state.movementList);
+  const { movements, loading, motorcyclist } = useAppSelector(
+    (state) => state.movementList,
+  );
   const [vehicles, setVehicles] = useState<number[]>([]);
   const [filterFecha, setFilterFecha] = useState("");
   const [filterVehicle, setFilterVehicle] = useState("");
-  const [filterMotorista, setFilterMotorista] = useState("");
 
   const clearFilters = () => {
     setFilterFecha("");
     setFilterVehicle("");
-    setFilterMotorista("");
+    dispatch(setMotorcyclist(""));
   };
 
-  const hasActiveFilters = filterFecha || filterVehicle || filterMotorista;
+  const hasActiveFilters = filterFecha || filterVehicle || motorcyclist;
+
+  const handleSearch = () => {
+    dispatch(postMovementList());
+  };
 
   const typeBodyTemplate = (product: { movements: "in" | "out" }) => {
     return (
@@ -90,13 +99,16 @@ const EntryList = () => {
             />
           </div>
           <div className="space-y-2 flex flex-col">
-            <label htmlFor="filterMotorista">Motorista</label>
+            <label htmlFor="filterMotorcyclist">Motorista</label>
             <InputText
-              id="filterMotorista"
+              id="filterMotorcyclist"
               placeholder="Buscar por nombre..."
-              value={filterMotorista}
-              onChange={(e) => setFilterMotorista(e.target.value)}
+              value={motorcyclist}
+              onChange={(e) => dispatch(setMotorcyclist(e.target.value))}
             />
+          </div>
+          <div>
+            <Button label="Buscar" onClick={handleSearch} />
           </div>
           <div className="flex items-end">
             {hasActiveFilters && (

@@ -19,4 +19,5 @@ export interface MovementListResponse {
 export interface MovementListState {
   movements: MovementList[] | null;
   loading: boolean;
+  motorcyclist: string;
 }
