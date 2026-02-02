@@ -3,9 +3,7 @@ export interface BrandList {
   name: string;
 }
 
-export interface BrandListResponse {
-  brandList: BrandList[] | null;
-}
+export type BrandListResponse = BrandList[];
 
 export interface BrandListState {
   brandList: BrandList[] | null;

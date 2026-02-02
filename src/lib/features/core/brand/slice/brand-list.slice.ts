@@ -19,7 +19,7 @@ const brandListSlice = createSlice({
     builder.addCase(
       getBrandList.fulfilled,
       (state, action: PayloadAction<BrandListResponse>) => {
-        state.brandList = action.payload.brandList;
+        state.brandList = action.payload;
         state.loading = false;
       },
     );
