@@ -8,7 +8,8 @@ const initialState: MovementCreateState = {
   id_Vehicles: 0,
   movements: 'in',
   motorcyclist: "",
-  mileage: 0
+  mileage: 0,
+  selectedvehicle: null,
 };
 
 const movementCreateSlice = createSlice({
@@ -26,6 +27,9 @@ const movementCreateSlice = createSlice({
     },
     setIdVehicles(state, action: PayloadAction<number>) {
       state.id_Vehicles = action.payload;
+    },
+    setSelectedVehicle(state, action: PayloadAction<string | null>) {
+      state.selectedvehicle = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -47,5 +51,5 @@ const movementCreateSlice = createSlice({
   },
 });
 
-export const { setMovements, setMotorcyclist, setMileage, setIdVehicles } = movementCreateSlice.actions;
+export const { setMovements, setMotorcyclist, setMileage, setIdVehicles, setSelectedVehicle } = movementCreateSlice.actions;
 export default movementCreateSlice.reducer;

@@ -18,4 +18,5 @@ export interface MovementCreateState {
   movements: 'in' | 'out';
   motorcyclist: string;
   mileage: number;
+  selectedvehicle: string | null;
 }

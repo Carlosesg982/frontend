@@ -12,10 +12,12 @@ import {
 } from "@/src/lib/features/core/movement/slice/movement-list.slice";
 import { postMovementList } from "@/src/lib/features/core/movement/thunks/movement-list.thunk";
 import { Button } from "primereact/button";
+import { setSelectedVehicle } from "@/src/lib/features/core/movement/slice/movement-create.slice";
 
 const EntryList = () => {
   const dispatch = useAppDispatch();
   const { vehiclesList } = useAppSelector((state) => state.vehicleList);
+  const { selectedvehicle } = useAppSelector((state) => state.movementCreate);
   const { movements, loading, motorcyclist, id_vehicles, created_at } =
     useAppSelector((state) => state.movementList);
 
@@ -23,6 +25,7 @@ const EntryList = () => {
     await dispatch(setCreatedAt(null));
     await dispatch(setIdVehicles(0));
     await dispatch(setMotorcyclist(""));
+    await dispatch(setSelectedVehicle(null));
   };
 
   const hasActiveFilters =
@@ -100,6 +103,10 @@ const EntryList = () => {
             <DropdownVehicle
               list={vehiclesList || []}
               onSelect={(value) => dispatch(setIdVehicles(value))}
+              selectedCountry={selectedvehicle}
+              setSelectedCountry={(value) =>
+                dispatch(setSelectedVehicle(value))
+              }
             />
           </div>
           <div className="space-y-2 flex flex-col">

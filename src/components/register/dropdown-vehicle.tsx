@@ -1,22 +1,19 @@
 import { VehicleList } from "@/src/lib/features/core/vehicule/types/vehicle-list.type";
-import { useState, useEffect } from "react";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 
 type DropdownVehicleProps = {
   list: VehicleList[];
   onSelect: (value: number) => void;
+  selectedCountry: string | null;
+  setSelectedCountry: (value: string | null) => void;
 };
 
-const DropdownVehicle = ({ list, onSelect }: DropdownVehicleProps) => {
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (selectedId !== null) {
-      onSelect(selectedId);
-    }
-  }, [selectedId, onSelect]);
-
+const DropdownVehicle = ({
+  list,
+  onSelect,
+  selectedCountry,
+  setSelectedCountry,
+}: DropdownVehicleProps) => {
   const selectedCountryTemplate = (option: VehicleList) => {
     if (option) {
       return (
@@ -43,7 +40,7 @@ const DropdownVehicle = ({ list, onSelect }: DropdownVehicleProps) => {
 
   const handleChange = (e: DropdownChangeEvent) => {
     setSelectedCountry(e.value);
-    setSelectedId(e.value?.id || null);
+    onSelect(e.value?.id || 0);
   };
   return (
     <div className="card flex justify-content-center">
