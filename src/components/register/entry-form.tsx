@@ -13,10 +13,12 @@ import {
 } from "@/src/lib/features/core/movement/slice/movement-create.slice";
 import { InputNumber } from "primereact/inputnumber";
 import { postMovementCreate } from "@/src/lib/features/core/movement/thunks/movement-create.thunk";
+import { setSelectedVehicle } from "@/src/lib/features/core/movement/slice/movement-create.slice";
 
 const EntryForm = () => {
   const dispatch = useAppDispatch();
   const { vehiclesList } = useAppSelector((state) => state.vehicleList);
+  const { selectedvehicle } = useAppSelector((state) => state.movementCreate);
   const { movements, motorcyclist, mileage } = useAppSelector(
     (state) => state.movementCreate,
   );
@@ -33,6 +35,7 @@ const EntryForm = () => {
       dispatch(setMotorcyclist(""));
       dispatch(setMileage(0));
       dispatch(setMovements("in"));
+      dispatch(setSelectedVehicle(null));
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } finally {
@@ -72,6 +75,8 @@ const EntryForm = () => {
           <DropdownVehicle
             list={vehiclesList || []}
             onSelect={(value) => dispatch(setIdVehicles(value))}
+            selectedCountry={selectedvehicle}
+            setSelectedCountry={(value) => dispatch(setSelectedVehicle(value))}
           />
         </div>
 
