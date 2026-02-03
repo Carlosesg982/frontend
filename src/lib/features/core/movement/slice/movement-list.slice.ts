@@ -5,23 +5,46 @@ import { MovementListResponse, MovementListState } from "../types/movement-list.
 const initialState: MovementListState = {
   movements: null,
   loading: true,
-  motorcyclist: "",
-  id_vehicles: 0,
-  created_at: null,
+  filterMotorcyclist: "",
+  selectedMotorcyclist: "",
+  filterIdVehicles: 0,
+  selectedIdVehicles: 0,
+  filterCreatedAt: null,
+  selectedCreatedAt: null,
+  hasActiveFilters: true,
 };
 
 const movementListSlice = createSlice({
   name: "movementList",
   initialState,
   reducers: {
-    setMotorcyclist(state, action: PayloadAction<string>) {
-      state.motorcyclist = action.payload;
+    setHasActiveFilters(state) {
+      state.hasActiveFilters = state.filterCreatedAt === state.selectedCreatedAt 
+      && state.filterIdVehicles === state.selectedIdVehicles 
+      && state.filterMotorcyclist === state.selectedMotorcyclist;
     },
-    setIdVehicles(state, action: PayloadAction<number>) {
-      state.id_vehicles = action.payload;
+    setSearchFilters(state) {
+      state.filterCreatedAt = state.selectedCreatedAt;
+      state.filterIdVehicles = state.selectedIdVehicles;
+      state.filterMotorcyclist = state.selectedMotorcyclist;
+      state.hasActiveFilters = true;
     },
-    setCreatedAt(state, action: PayloadAction<string | null>) {
-      state.created_at = action.payload;
+    setReset(state) {
+      state.filterMotorcyclist = "";
+      state.selectedMotorcyclist = "";
+      state.filterIdVehicles = 0;
+      state.selectedIdVehicles = 0;
+      state.filterCreatedAt = null;
+      state.selectedCreatedAt = null;
+    },
+    setSelectedMotorcyclist(state, action: PayloadAction<string>) {
+      state.selectedMotorcyclist = action.payload;
+    },
+    setSelectedIdVehicles(state, action: PayloadAction<number>) {
+      state.selectedIdVehicles = action.payload;
+    },
+    setSelectedCreatedAt(state, action: PayloadAction<string | null>) {
+      state.selectedCreatedAt = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -43,5 +66,12 @@ const movementListSlice = createSlice({
   },
 });
 
-export const { setMotorcyclist, setIdVehicles, setCreatedAt } = movementListSlice.actions;
+export const {
+  setHasActiveFilters,
+  setSelectedMotorcyclist,
+  setSelectedIdVehicles,
+  setSelectedCreatedAt,
+  setSearchFilters,
+  setReset
+} = movementListSlice.actions;
 export default movementListSlice.reducer;

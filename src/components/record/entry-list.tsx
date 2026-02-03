@@ -6,36 +6,44 @@ import { Card } from "primereact/card";
 import { Column } from "primereact/column";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import {
-  setMotorcyclist,
-  setIdVehicles,
-  setCreatedAt,
+  setSelectedMotorcyclist,
+  setSelectedIdVehicles,
+  setSelectedCreatedAt,
+  setSearchFilters,
+  setHasActiveFilters,
+  setReset,
 } from "@/src/lib/features/core/movement/slice/movement-list.slice";
 import { postMovementList } from "@/src/lib/features/core/movement/thunks/movement-list.thunk";
 import { Button } from "primereact/button";
 import { setSelectedVehicle } from "@/src/lib/features/core/movement/slice/movement-create.slice";
+import { useEffect } from "react";
 
 const EntryList = () => {
   const dispatch = useAppDispatch();
   const { vehiclesList } = useAppSelector((state) => state.vehicleList);
   const { selectedvehicle } = useAppSelector((state) => state.movementCreate);
-  const { movements, loading, motorcyclist, id_vehicles, created_at } =
-    useAppSelector((state) => state.movementList);
+  const {
+    movements,
+    loading,
+    selectedMotorcyclist,
+    selectedCreatedAt,
+    hasActiveFilters,
+    selectedIdVehicles,
+  } = useAppSelector((state) => state.movementList);
 
   const clearFilters = async () => {
-    await dispatch(setCreatedAt(null));
-    await dispatch(setIdVehicles(0));
-    await dispatch(setMotorcyclist(""));
+    await dispatch(setReset());
     await dispatch(setSelectedVehicle(null));
   };
 
-  const hasActiveFilters =
-    created_at === null && id_vehicles === 0 && motorcyclist === "";
-
-  console.log(id_vehicles);
-  const handleSearch = () => {
-    dispatch(postMovementList());
-    clearFilters();
+  const handleSearch = async () => {
+    await dispatch(setSearchFilters());
+    await dispatch(postMovementList());
   };
+
+  useEffect(() => {
+    dispatch(setHasActiveFilters());
+  }, [selectedMotorcyclist, selectedCreatedAt, selectedIdVehicles, dispatch]);
 
   const typeBodyTemplate = (product: { movements: "in" | "out" }) => {
     return (
@@ -92,9 +100,11 @@ const EntryList = () => {
             <InputText
               id="filterFecha"
               type="date"
-              value={created_at ? created_at.split("T")[0] : ""}
+              value={selectedCreatedAt ? selectedCreatedAt.split("T")[0] : ""}
               onChange={(e) =>
-                dispatch(setCreatedAt(e.target.value ? e.target.value : null))
+                dispatch(
+                  setSelectedCreatedAt(e.target.value ? e.target.value : null),
+                )
               }
             />
           </div>
@@ -102,7 +112,7 @@ const EntryList = () => {
             <label htmlFor="filterVehicle">Vehículo</label>
             <DropdownVehicle
               list={vehiclesList || []}
-              onSelect={(value) => dispatch(setIdVehicles(value))}
+              onSelect={(value) => dispatch(setSelectedIdVehicles(value))}
               selectedCountry={selectedvehicle}
               setSelectedCountry={(value) =>
                 dispatch(setSelectedVehicle(value))
@@ -115,8 +125,10 @@ const EntryList = () => {
               id="filterMotorcyclist"
               placeholder="Buscar por nombre..."
               max={100}
-              value={motorcyclist}
-              onChange={(e) => dispatch(setMotorcyclist(e.target.value))}
+              value={selectedMotorcyclist}
+              onChange={(e) =>
+                dispatch(setSelectedMotorcyclist(e.target.value))
+              }
             />
           </div>
           <div className="space-y-2">

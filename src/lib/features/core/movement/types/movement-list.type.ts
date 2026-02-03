@@ -19,7 +19,11 @@ export interface MovementListResponse {
 export interface MovementListState {
   movements: MovementList[] | null;
   loading: boolean;
-  motorcyclist: string;
-  id_vehicles: number;
-  created_at: string | null;
+  filterMotorcyclist: string;
+  selectedMotorcyclist: string;
+  filterIdVehicles: number;
+  selectedIdVehicles: number;
+  filterCreatedAt: string | null;
+  selectedCreatedAt: string | null;
+  hasActiveFilters: boolean;
 }
