@@ -9,6 +9,8 @@ const initialState: VehicleCreateState = {
   id_model: 0,
   plate: "",
   formOpen: false,
+  selectedBrand: null,
+  selectedModel: null,
 };
 
 const vehicleCreateSlice = createSlice({
@@ -26,7 +28,13 @@ const vehicleCreateSlice = createSlice({
     },
     setFormOpen(state, action: PayloadAction<boolean>) {
       state.formOpen = action.payload;
-    }
+    },
+    setSelectedBrand(state, action: PayloadAction<string | null>) {
+      state.selectedBrand = action.payload;
+    },
+    setSelectedModel(state, action: PayloadAction<string | null>) {
+      state.selectedModel = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(postVehicleCreate.pending, (state) => {
@@ -47,5 +55,7 @@ const vehicleCreateSlice = createSlice({
   },
 });
 
-export const { setIdBrand, setIdModel, setPlate, setFormOpen } = vehicleCreateSlice.actions;
+export const { 
+  setIdBrand, setIdModel, setPlate, setFormOpen, setSelectedBrand, setSelectedModel
+} = vehicleCreateSlice.actions;
 export default vehicleCreateSlice.reducer;

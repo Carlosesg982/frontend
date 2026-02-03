@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   // La URL de tu backend de Node.js
-  baseURL: "http://localhost:4000/api",
+  baseURL: process.env.NEXT_PUBLIC_URL_BACKEND ||"https://rv-backend-production.up.railway.app/api",
 
   headers: {
     "Content-Type": "application/json",

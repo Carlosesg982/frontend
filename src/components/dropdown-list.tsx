@@ -1,21 +1,18 @@
-import { useState, useEffect } from "react";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 
 type DropdownListProps = {
   list: { id: number; name: string }[];
   onSelect: (value: number) => void;
+  selectedCountry: string | null;
+  setSelectedCountry: (value: string | null) => void;
 };
 
-const DropdownList = ({ list, onSelect }: DropdownListProps) => {
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (selectedId !== null) {
-      onSelect(selectedId);
-    }
-  }, [selectedId, onSelect]);
-
+const DropdownList = ({
+  list,
+  onSelect,
+  selectedCountry,
+  setSelectedCountry,
+}: DropdownListProps) => {
   const selectedCountryTemplate = (option: { id: number; name: string }) => {
     if (option) {
       return (
@@ -38,7 +35,7 @@ const DropdownList = ({ list, onSelect }: DropdownListProps) => {
 
   const handleChange = (e: DropdownChangeEvent) => {
     setSelectedCountry(e.value);
-    setSelectedId(e.value?.id || null);
+    onSelect(e.value?.id || 0);
   };
 
   return (
@@ -48,7 +45,6 @@ const DropdownList = ({ list, onSelect }: DropdownListProps) => {
         onChange={handleChange}
         options={list}
         optionLabel="name"
-        placeholder="Selecciones una marca"
         filter
         filterDelay={400}
         valueTemplate={selectedCountryTemplate}

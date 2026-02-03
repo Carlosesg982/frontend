@@ -17,4 +17,6 @@ export interface VehicleCreateState {
   id_model: number;
   plate: string;
   formOpen: boolean;
+  selectedBrand: string | null;
+  selectedModel: string | null;
 }

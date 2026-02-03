@@ -9,6 +9,8 @@ import {
   setIdModel,
   setPlate,
   setFormOpen,
+  setSelectedBrand,
+  setSelectedModel,
 } from "@/src/lib/features/core/vehicule/slice/vehicle-create.slice";
 import { setId } from "@/src/lib/features/core/vehicule/slice/vehicle-update.slice";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
@@ -21,7 +23,9 @@ export function VehicleForm() {
   const [loading, setLoading] = useState(false);
   const { brandList } = useAppSelector((state) => state.brandList);
   const { modelList } = useAppSelector((state) => state.modelList);
-  const { plate, formOpen } = useAppSelector((state) => state.vehicleCreate);
+  const { plate, formOpen, selectedBrand, selectedModel } = useAppSelector(
+    (state) => state.vehicleCreate,
+  );
   const { isEditing } = useAppSelector((state) => state.vehicleUpdate);
 
   const Header = isEditing ? "Editar Vehículo" : "Nuevo Vehículo";
@@ -31,6 +35,8 @@ export function VehicleForm() {
     dispatch(setIdBrand(0));
     dispatch(setIdModel(0));
     dispatch(setPlate(""));
+    dispatch(setSelectedBrand(null));
+    dispatch(setSelectedModel(null));
     dispatch(setFormOpen(false));
   };
 
@@ -72,14 +78,18 @@ export function VehicleForm() {
             <label htmlFor="marca">Marca</label>
             <DropdownList
               list={brandList || []}
-              onSelect={(value) => dispatch(setIdBrand(Number(value)))}
+              onSelect={(value) => dispatch(setIdBrand(value))}
+              selectedCountry={selectedBrand}
+              setSelectedCountry={(value) => dispatch(setSelectedBrand(value))}
             />
           </div>
           <div className="space-y-2 flex flex-col gap-2">
             <label htmlFor="modelo">Modelo</label>
             <DropdownList
               list={modelList || []}
-              onSelect={(value) => dispatch(setIdModel(Number(value)))}
+              onSelect={(value) => dispatch(setIdModel(value))}
+              selectedCountry={selectedModel}
+              setSelectedCountry={(value) => dispatch(setSelectedModel(value))}
             />
           </div>
           <div className="space-y-2 flex flex-col">

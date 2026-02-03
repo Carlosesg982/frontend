@@ -16,6 +16,8 @@ import {
   setIdModel,
   setPlate,
   setFormOpen,
+  setSelectedBrand,
+  setSelectedModel,
 } from "@/src/lib/features/core/vehicule/slice/vehicle-create.slice";
 import { confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
@@ -64,6 +66,8 @@ const VehicleCard = ({ vehicle, toast }: VehicleCardProps) => {
   const handleUpdateVehicle = async () => {
     await dispatch(setIsEditing(true));
     await dispatch(setId(vehicle.id));
+    await dispatch(setSelectedBrand(vehicle.brand));
+    await dispatch(setSelectedModel(vehicle.model));
     await dispatch(
       setIdBrand(brandList?.find((b) => b.name === vehicle.brand)?.id || 0),
     );
