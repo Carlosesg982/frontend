@@ -86,7 +86,6 @@ const VehicleCard = ({ vehicle, toast }: VehicleCardProps) => {
 
   const Header = (
     <div className="flex items-center justify-between w-full p-4 group">
-      {/* Sección izquierda: Icono + Marca */}
       <div className="flex items-center gap-4">
         <div className="p-3 bg-blue-500/10 rounded-lg flex-shrink-0">
           <i
@@ -99,8 +98,7 @@ const VehicleCard = ({ vehicle, toast }: VehicleCardProps) => {
         </h3>
       </div>
 
-      {/* Sección derecha: Botones de acción */}
-      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+      <div className="flex gap-2 flex-shrink-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
         <Button
           icon="pi pi-pencil"
           className="h-10 w-10 p-button-rounded p-button-success"
