@@ -17,6 +17,7 @@ import { postMovementList } from "@/src/lib/features/core/movement/thunks/moveme
 import { Button } from "primereact/button";
 import { setSelectedVehicle } from "@/src/lib/features/core/movement/slice/movement-create.slice";
 import { useEffect } from "react";
+import EntryListSkeleton from "@/src/components/record/entry-list-skeleton";
 
 const EntryList = () => {
   const dispatch = useAppDispatch();
@@ -153,9 +154,7 @@ const EntryList = () => {
 
       <Card title="Historial de Entradas y Salidas">
         {loading ? (
-          <div className="text-center py-8 text-muted-foreground">
-            Cargando...
-          </div>
+          <EntryListSkeleton />
         ) : movements?.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
             No se encontraron registros

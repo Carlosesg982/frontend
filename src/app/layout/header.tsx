@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 const navItems = [
-  { href: "/", label: "Inicio", icon: "pi pi-objects-column" },
   { href: "/vehicles", label: "Vehículos", icon: "pi pi-truck" },
   {
     href: "/register",
@@ -17,18 +16,17 @@ const Header = () => {
 
   return (
     <nav className="bg-sidebar text-sidebar-foreground border-b border-sidebar-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-2 sm:px-6 lg:px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <i
               className="pi pi-truck"
               style={{ color: "green", fontSize: "1.5rem" }}
             ></i>
             <span className="text-xl font-semibold">Control de Flota</span>
-          </div>
+          </Link>
           <div className="flex items-center gap-1">
             {navItems.map((item) => {
-              const Icon = item.icon;
               const isActive = pathname === item.href;
               return (
                 <Link
@@ -43,7 +41,7 @@ const Header = () => {
                     }
                   `}
                 >
-                  <i className={Icon}></i>
+                  <i className={item.icon}></i>
                   <span className="hidden sm:inline">{item.label}</span>
                 </Link>
               );

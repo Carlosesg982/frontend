@@ -11,6 +11,7 @@ import { getBrandList } from "@/src/lib/features/core/brand/thunks/brand-list.th
 import { getModelList } from "@/src/lib/features/core/model/thunks/model-list.thunk";
 import { setFormOpen } from "@/src/lib/features/core/vehicule/slice/vehicle-create.slice";
 import { setIsEditing } from "@/src/lib/features/core/vehicule/slice/vehicle-update.slice";
+import VehicleCardSkeleton from "@/src/components/vehicle/card/vehicle-card-skeleton";
 
 export default function VehiculosPage() {
   const dispatch = useAppDispatch();
@@ -45,11 +46,17 @@ export default function VehiculosPage() {
             label="Nuevo Vehículo"
             icon="pi pi-plus"
             onClick={() => handleCreateVehicle()}
+            size="small"
+            className="md:size-large"
           />
         </div>
 
         {loading ? (
-          <div className="text-center py-12 ">Cargando...</div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <VehicleCardSkeleton key={index} />
+            ))}
+          </div>
         ) : vehiclesList === null ? (
           <div className="text-center py-12">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500/10 rounded-full mb-4">

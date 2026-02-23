@@ -6,6 +6,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import Header from "./layout/header";
 import Providers from "./providers";
+import Footer from "./layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           <div className="min-h-screen bg-gray-300 text-black">
             <Header />
             <main>{children}</main>
+            <Footer />
           </div>
         </Providers>
       </body>
