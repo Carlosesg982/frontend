@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postVehicleCreate } from "../thunks/vehicle-create.thunk";
-import { VehicleCreateResponse, VehicleCreateState } from "../types/vehicle-create.type";
+import { VehicleCreateResponse, VehicleCreateState, Brand, Model } from "../types/vehicle-create.type";
+
 
 const initialState: VehicleCreateState = {
   vehicle: null,
@@ -29,10 +30,10 @@ const vehicleCreateSlice = createSlice({
     setFormOpen(state, action: PayloadAction<boolean>) {
       state.formOpen = action.payload;
     },
-    setSelectedBrand(state, action: PayloadAction<string | null>) {
+    setSelectedBrand(state, action: PayloadAction<Brand | null>) {
       state.selectedBrand = action.payload;
     },
-    setSelectedModel(state, action: PayloadAction<string | null>) {
+    setSelectedModel(state, action: PayloadAction<Model | null>) {
       state.selectedModel = action.payload;
     },
   },

@@ -64,7 +64,7 @@ export function VehicleForm() {
         if (!formOpen) return;
         dispatch(setFormOpen(false));
       }}
-      style={{ width: "40vw" }}
+      className="w-[90vw] md:w-[50vw]"
     >
       <p className="text-gray-600 mb-4">
         {isEditing

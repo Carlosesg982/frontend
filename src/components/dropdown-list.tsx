@@ -3,8 +3,8 @@ import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 type DropdownListProps = {
   list: { id: number; name: string }[];
   onSelect: (value: number) => void;
-  selectedCountry: string | null;
-  setSelectedCountry: (value: string | null) => void;
+  selectedCountry: { id: number; name: string } | null;
+  setSelectedCountry: (value: { id: number; name: string } | null) => void;
 };
 
 const DropdownList = ({

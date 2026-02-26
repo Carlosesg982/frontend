@@ -64,13 +64,15 @@ const VehicleCard = ({ vehicle, toast }: VehicleCardProps) => {
   };
 
   const handleUpdateVehicle = async () => {
+    const selectedBrand =
+      brandList?.find((b) => b.name === vehicle.brand) || null;
+    const selectedModel =
+      modelList?.find((m) => m.name === vehicle.model) || null;
     await dispatch(setIsEditing(true));
     await dispatch(setId(vehicle.id));
-    await dispatch(setSelectedBrand(vehicle.brand));
-    await dispatch(setSelectedModel(vehicle.model));
-    await dispatch(
-      setIdBrand(brandList?.find((b) => b.name === vehicle.brand)?.id || 0),
-    );
+    await dispatch(setSelectedBrand(selectedBrand));
+    await dispatch(setSelectedModel(selectedModel));
+    await dispatch(setIdBrand(selectedBrand?.id || 0));
     await dispatch(
       setIdModel(modelList?.find((m) => m.name === vehicle.model)?.id || 0),
     );
