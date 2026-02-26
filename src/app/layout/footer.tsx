@@ -36,30 +36,36 @@ const Footer = () => {
           </div>
           <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:mt-0 lg:justify-end lg:gap-12">
             <li>
-              <Link
+              <a
                 className="text-gray-400 transition hover:text-sidebar-accent-foreground"
-                href="/"
+                href="https://portafolio-self-alpha.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Acerca de nosotros
-              </Link>
+              </a>
             </li>
 
             <li>
-              <Link
+              <a
                 className="text-gray-400 transition hover:text-sidebar-accent-foreground"
-                href="/"
+                href="https://portafolio-self-alpha.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Redes Sociales
-              </Link>
+              </a>
             </li>
 
             <li>
-              <Link
+              <a
                 className="text-gray-400 transition hover:text-sidebar-accent-foreground"
-                href="/"
+                href="https://portafolio-self-alpha.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Contactanos
-              </Link>
+              </a>
             </li>
           </ul>
         </div>
