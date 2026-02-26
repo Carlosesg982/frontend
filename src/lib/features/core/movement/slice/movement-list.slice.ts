@@ -14,42 +14,52 @@ const initialState: MovementListState = {
   hasActiveFilters: true,
 };
 
+const shouldActiveFilters = (sMotorcyclist: string, fMotorcyclist: string, sIdVehicles: number, fIdVehicles: number, 
+  sCreatedAt: string | null, fCreatedAt: string | null): boolean => {
+  return (
+    sMotorcyclist === fMotorcyclist &&
+    sIdVehicles === fIdVehicles &&
+    sCreatedAt === fCreatedAt
+  );
+};
+
 const movementListSlice = createSlice({
   name: "movementList",
   initialState,
   reducers: {
-    setHasActiveFilters(state) {
-      state.hasActiveFilters = state.filterCreatedAt === state.selectedCreatedAt 
-      && state.filterIdVehicles === state.selectedIdVehicles 
-      && state.filterMotorcyclist === state.selectedMotorcyclist;
-    },
-    setSearchFilters(state) {
-      state.filterCreatedAt = state.selectedCreatedAt;
-      state.filterIdVehicles = state.selectedIdVehicles;
-      state.filterMotorcyclist = state.selectedMotorcyclist;
-      state.hasActiveFilters = true;
-    },
     setReset(state) {
-      state.filterMotorcyclist = "";
-      state.selectedMotorcyclist = "";
-      state.filterIdVehicles = 0;
-      state.selectedIdVehicles = 0;
-      state.filterCreatedAt = null;
-      state.selectedCreatedAt = null;
+      state.selectedMotorcyclist = initialState.selectedMotorcyclist;
+      state.selectedIdVehicles = initialState.selectedIdVehicles;
+      state.selectedCreatedAt = initialState.selectedCreatedAt;
+      state.filterMotorcyclist = initialState.filterMotorcyclist;
+      state.filterIdVehicles = initialState.filterIdVehicles;
+      state.filterCreatedAt = initialState.filterCreatedAt;
+      state.hasActiveFilters = shouldActiveFilters(state.selectedMotorcyclist, state.filterMotorcyclist,
+        state.selectedIdVehicles, state.filterIdVehicles, state.selectedCreatedAt, state.filterCreatedAt);
     },
     setSelectedMotorcyclist(state, action: PayloadAction<string>) {
       state.selectedMotorcyclist = action.payload;
+      state.hasActiveFilters = shouldActiveFilters(state.selectedMotorcyclist, state.filterMotorcyclist,
+        state.selectedIdVehicles, state.filterIdVehicles, state.selectedCreatedAt, state.filterCreatedAt);
     },
     setSelectedIdVehicles(state, action: PayloadAction<number>) {
       state.selectedIdVehicles = action.payload;
+      state.hasActiveFilters = shouldActiveFilters(state.selectedMotorcyclist, state.filterMotorcyclist,
+        state.selectedIdVehicles, state.filterIdVehicles, state.selectedCreatedAt, state.filterCreatedAt);
     },
     setSelectedCreatedAt(state, action: PayloadAction<string | null>) {
       state.selectedCreatedAt = action.payload;
+      state.hasActiveFilters = shouldActiveFilters(state.selectedMotorcyclist, state.filterMotorcyclist,
+        state.selectedIdVehicles, state.filterIdVehicles, state.selectedCreatedAt, state.filterCreatedAt);
     },
   },
   extraReducers: (builder) => {
     builder.addCase(postMovementList.pending, (state) => {
       state.loading = true;
+      state.hasActiveFilters = true;
+      state.filterMotorcyclist = state.selectedMotorcyclist;
+      state.filterIdVehicles = state.selectedIdVehicles;
+      state.filterCreatedAt = state.selectedCreatedAt;
     });
 
     builder.addCase(
@@ -57,21 +67,21 @@ const movementListSlice = createSlice({
       (state, action: PayloadAction<MovementListResponse>) => {
         state.movements = action.payload.movements;
         state.loading = false;
+        state.hasActiveFilters = true;
       },
     );
 
     builder.addCase(postMovementList.rejected, (state) => {
       state.loading = false;
+      state.hasActiveFilters = true;
     });
   },
 });
 
 export const {
-  setHasActiveFilters,
   setSelectedMotorcyclist,
   setSelectedIdVehicles,
   setSelectedCreatedAt,
-  setSearchFilters,
   setReset
 } = movementListSlice.actions;
 export default movementListSlice.reducer;

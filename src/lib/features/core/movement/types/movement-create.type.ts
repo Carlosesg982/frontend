@@ -1,3 +1,5 @@
+import { VehicleList } from "../../vehicule/types/vehicle-list.type";
+
 export interface Movement {
   id: number;
   id_Vehicles: number;
@@ -18,5 +20,5 @@ export interface MovementCreateState {
   movements: 'in' | 'out';
   motorcyclist: string;
   mileage: number;
-  selectedvehicle: string | null;
+  selectedvehicle: VehicleList | null;
 }

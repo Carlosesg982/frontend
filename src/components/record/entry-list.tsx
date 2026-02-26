@@ -9,14 +9,11 @@ import {
   setSelectedMotorcyclist,
   setSelectedIdVehicles,
   setSelectedCreatedAt,
-  setSearchFilters,
-  setHasActiveFilters,
   setReset,
 } from "@/src/lib/features/core/movement/slice/movement-list.slice";
 import { postMovementList } from "@/src/lib/features/core/movement/thunks/movement-list.thunk";
 import { Button } from "primereact/button";
 import { setSelectedVehicle } from "@/src/lib/features/core/movement/slice/movement-create.slice";
-import { useEffect } from "react";
 import EntryListSkeleton from "@/src/components/record/entry-list-skeleton";
 
 const EntryList = () => {
@@ -29,22 +26,26 @@ const EntryList = () => {
     selectedMotorcyclist,
     selectedCreatedAt,
     hasActiveFilters,
-    selectedIdVehicles,
+    filterMotorcyclist,
+    filterIdVehicles,
+    filterCreatedAt,
   } = useAppSelector((state) => state.movementList);
 
   const clearFilters = async () => {
     await dispatch(setReset());
     await dispatch(setSelectedVehicle(null));
+    if (
+      filterMotorcyclist !== "" ||
+      filterCreatedAt !== null ||
+      filterIdVehicles !== 0
+    ) {
+      handleSearch();
+    }
   };
 
   const handleSearch = async () => {
-    await dispatch(setSearchFilters());
     await dispatch(postMovementList());
   };
-
-  useEffect(() => {
-    dispatch(setHasActiveFilters());
-  }, [selectedMotorcyclist, selectedCreatedAt, selectedIdVehicles, dispatch]);
 
   const typeBodyTemplate = (product: { movements: "in" | "out" }) => {
     return (
@@ -102,11 +103,11 @@ const EntryList = () => {
               id="filterFecha"
               type="date"
               value={selectedCreatedAt ? selectedCreatedAt.split("T")[0] : ""}
-              onChange={(e) =>
+              onChange={(e) => {
                 dispatch(
                   setSelectedCreatedAt(e.target.value ? e.target.value : null),
-                )
-              }
+                );
+              }}
             />
           </div>
           <div className="space-y-2 flex flex-col">
@@ -140,14 +141,12 @@ const EntryList = () => {
             />
           </div>
           <div className="flex items-end">
-            {!hasActiveFilters && (
-              <button
-                onClick={() => clearFilters()}
-                className="text-sm text-primary hover:underline cursor-pointer"
-              >
-                Limpiar filtros
-              </button>
-            )}
+            <button
+              onClick={() => clearFilters()}
+              className="text-sm text-primary hover:underline cursor-pointer"
+            >
+              Limpiar filtros
+            </button>
           </div>
         </div>
       </Card>

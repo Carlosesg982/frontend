@@ -4,8 +4,8 @@ import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 type DropdownVehicleProps = {
   list: VehicleList[];
   onSelect: (value: number) => void;
-  selectedCountry: string | null;
-  setSelectedCountry: (value: string | null) => void;
+  selectedCountry: VehicleList | null;
+  setSelectedCountry: (value: VehicleList | null) => void;
 };
 
 const DropdownVehicle = ({

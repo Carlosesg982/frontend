@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postMovementCreate } from "../thunks/movement-create.thunk";
 import { MovementCreateResponse, MovementCreateState } from "../types/movement-create.type";
+import { VehicleList } from "../../vehicule/types/vehicle-list.type";
 
 const initialState: MovementCreateState = {
   movement: null,
@@ -28,7 +29,7 @@ const movementCreateSlice = createSlice({
     setIdVehicles(state, action: PayloadAction<number>) {
       state.id_Vehicles = action.payload;
     },
-    setSelectedVehicle(state, action: PayloadAction<string | null>) {
+    setSelectedVehicle(state, action: PayloadAction<VehicleList | null>) {
       state.selectedvehicle = action.payload;
     },
   },
